@@ -1,8 +1,8 @@
 {
   "dependencies": {
     "curtainjs": "^1.0.2",
-    "curtainsjs": "^7.1.0",
-    "gsap": "^3.5.1",
+    "curtainsjs": "^7.3.3",
+    "gsap": "^3.7.1",
     "jquery": "^3.5.1"
   },
   "scripts": {
@@ -16,7 +16,21 @@
   "devDependencies": {
     "cssnano": "^4.1.10",
     "glslify-bundle": "^5.1.1",
-    "glslify-deps": "^1.3.1",
+    "glslify-deps": "^1.3.2",
     "shx": "^0.3.2"
-  }
+  },
+  "name": "lena",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/leej0803/lena.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/leej0803/lena/issues"
+  },
+  "homepage": "https://github.com/leej0803/lena#readme",
+  "description": ""
 }
