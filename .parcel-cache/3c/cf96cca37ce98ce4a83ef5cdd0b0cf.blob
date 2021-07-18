@@ -1,0 +1,12 @@
+var _parcelHelpers = require("@parcel/transformer-js/lib/esmodule-helpers.js");
+_parcelHelpers.defineInteropFlag(exports);
+var _chunksPrecisionMediumGlslJs = require('./chunks/precision.medium.glsl.js');
+var _chunksPrecisionMediumGlslJsDefault = _parcelHelpers.interopDefault(_chunksPrecisionMediumGlslJs);
+var _chunksDefaultVaryingsGlslJs = require('./chunks/default.varyings.glsl.js');
+var _chunksDefaultVaryingsGlslJsDefault = _parcelHelpers.interopDefault(_chunksDefaultVaryingsGlslJs);
+const planeFS = _chunksPrecisionMediumGlslJsDefault.default + _chunksDefaultVaryingsGlslJsDefault.default + `
+void main() {
+    gl_FragColor = vec4(0.0, 0.0, 0.0, 1.0);
+}
+`;
+exports.default = planeFS.replace(/\n/g, '');

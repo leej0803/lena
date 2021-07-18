@@ -1,1 +1,56 @@
-module.exports="precision mediump float;\n#define GLSLIFY 1\n\n\n   varying vec3 vVertexPosition;\n   varying vec2 vTextureCoord;\n   varying vec2 vFirstTextureCoord;\n   varying vec2 vSecondTextureCoord;\n\n   // custom uniforms\n   uniform float uTransitionTimer;\n   uniform float uTimer;\n   uniform float uTo;\n   uniform float uFrom;\n\n   // our textures samplers\n   uniform sampler2D firstTexture;\n   uniform sampler2D secondTexture;\n   uniform sampler2D thirdTexture;\n   uniform sampler2D displacement;\n\n    vec4 getTextureByIndex(float index, vec2 vUv){\n        vec4 result;\n        if(index==0.){\n            result = texture2D(firstTexture,vUv);\n        }\n        if(index==1.){\n            result = texture2D(secondTexture,vUv);\n        }\n        if(index==2.){\n            result = texture2D(thirdTexture,vUv);\n        }\n        return result;\n    }\n    float circle (in vec2 uv, in float radius, in float sharpness) {\n        float dist = length(uv - vec2(0.5));\n        return 1. - smoothstep(radius-sharpness,radius,dist);\n    }\n   void main() {\n       float progress = fract(uTransitionTimer);\n\n       vec2 center = vec2(0.5);\n       vec2 centerVector = vFirstTextureCoord - center;\n       vec2 vUv = vFirstTextureCoord;\n\n        float circleProgress = circle(vTextureCoord, progress*0.9, 0.2);\n        float ease = progress*(2. - progress);\n        vec2 nextUV = vUv + centerVector * (circleProgress - 1.0) + centerVector * ( 1. - ease) * 0.;\n        vec2 currentUV = vUv - centerVector * circleProgress*0.5 - centerVector * progress * 0.2;\n\n        float currentTexture = mod(uFrom,3.);\n        float nextTexture =  mod(uTo, 3.);\n\n        vec4 current = getTextureByIndex(currentTexture, currentUV);\n        vec4 next = getTextureByIndex(nextTexture, nextUV);\n        \n        gl_FragColor = mix(current,next,circleProgress);\n   }";
+precision mediump float;
+
+   varying vec3 vVertexPosition;
+   varying vec2 vTextureCoord;
+   varying vec2 vFirstTextureCoord;
+   varying vec2 vSecondTextureCoord;
+
+   // custom uniforms
+   uniform float uTransitionTimer;
+   uniform float uTimer;
+   uniform float uTo;
+   uniform float uFrom;
+
+   // our textures samplers
+   uniform sampler2D firstTexture;
+   uniform sampler2D secondTexture;
+   uniform sampler2D thirdTexture;
+   uniform sampler2D displacement;
+
+    vec4 getTextureByIndex(float index, vec2 vUv){
+        vec4 result;
+        if(index==0.){
+            result = texture2D(firstTexture,vUv);
+        }
+        if(index==1.){
+            result = texture2D(secondTexture,vUv);
+        }
+        if(index==2.){
+            result = texture2D(thirdTexture,vUv);
+        }
+        return result;
+    }
+    float circle (in vec2 uv, in float radius, in float sharpness) {
+        float dist = length(uv - vec2(0.5));
+        return 1. - smoothstep(radius-sharpness,radius,dist);
+    }
+   void main() {
+       float progress = fract(uTransitionTimer);
+
+       vec2 center = vec2(0.5);
+       vec2 centerVector = vFirstTextureCoord - center;
+       vec2 vUv = vFirstTextureCoord;
+
+        float circleProgress = circle(vTextureCoord, progress*0.9, 0.2);
+        float ease = progress*(2. - progress);
+        vec2 nextUV = vUv + centerVector * (circleProgress - 1.0) + centerVector * ( 1. - ease) * 0.;
+        vec2 currentUV = vUv - centerVector * circleProgress*0.5 - centerVector * progress * 0.2;
+
+        float currentTexture = mod(uFrom,3.);
+        float nextTexture =  mod(uTo, 3.);
+
+        vec4 current = getTextureByIndex(currentTexture, currentUV);
+        vec4 next = getTextureByIndex(nextTexture, nextUV);
+        
+        gl_FragColor = mix(current,next,circleProgress);
+   }

@@ -1,1 +1,34 @@
-module.exports="precision mediump float;\n#define GLSLIFY 1\n\n// default mandatory variables\nattribute vec3 aVertexPosition;\nattribute vec2 aTextureCoord;\n\nuniform mat4 uMVMatrix;\nuniform mat4 uPMatrix;\n\n// our texture matrices\n// displacement texture does not need to use them\nuniform mat4 firstTextureMatrix;\nuniform mat4 secondTextureMatrix;\n\n// custom variables\nvarying vec3 vVertexPosition;\nvarying vec2 vTextureCoord;\nvarying vec2 vFirstTextureCoord;\nvarying vec2 vSecondTextureCoord;\n\n// custom uniforms\nuniform float uTransitionTimer;\n\nvoid main() {\n    gl_Position = uPMatrix * uMVMatrix * vec4(aVertexPosition, 1.0);\n\n    // varyings\n    // use original texture coords for our displacement\n    vTextureCoord = aTextureCoord;\n    // use texture matrices for our videos\n    vFirstTextureCoord = (firstTextureMatrix * vec4(aTextureCoord, 0.0, 1.0)).xy;\n    vSecondTextureCoord = (secondTextureMatrix * vec4(aTextureCoord, 0.0, 1.0)).xy;\n    vVertexPosition = aVertexPosition;\n}";
+precision mediump float;
+
+// default mandatory variables
+attribute vec3 aVertexPosition;
+attribute vec2 aTextureCoord;
+
+uniform mat4 uMVMatrix;
+uniform mat4 uPMatrix;
+
+// our texture matrices
+// displacement texture does not need to use them
+uniform mat4 firstTextureMatrix;
+uniform mat4 secondTextureMatrix;
+
+// custom variables
+varying vec3 vVertexPosition;
+varying vec2 vTextureCoord;
+varying vec2 vFirstTextureCoord;
+varying vec2 vSecondTextureCoord;
+
+// custom uniforms
+uniform float uTransitionTimer;
+
+void main() {
+    gl_Position = uPMatrix * uMVMatrix * vec4(aVertexPosition, 1.0);
+
+    // varyings
+    // use original texture coords for our displacement
+    vTextureCoord = aTextureCoord;
+    // use texture matrices for our videos
+    vFirstTextureCoord = (firstTextureMatrix * vec4(aTextureCoord, 0.0, 1.0)).xy;
+    vSecondTextureCoord = (secondTextureMatrix * vec4(aTextureCoord, 0.0, 1.0)).xy;
+    vVertexPosition = aVertexPosition;
+}
