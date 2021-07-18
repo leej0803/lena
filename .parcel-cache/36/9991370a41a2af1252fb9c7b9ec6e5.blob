@@ -1,7 +1,0 @@
-var _parcelHelpers = require("@parcel/transformer-js/lib/esmodule-helpers.js");
-_parcelHelpers.defineInteropFlag(exports);
-const defaultVaryings = `
-varying vec3 vVertexPosition;
-varying vec2 vTextureCoord;
-`;
-exports.default = defaultVaryings.replace(/\n/g, '');
